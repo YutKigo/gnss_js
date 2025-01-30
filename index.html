@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ホームページのタイトル</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            body {
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #fff; /* 白い背景 */
+            }
+            canvas {
+                border: 1px solid #ccc; /* キャンバスの枠線 */
+            }
+        </style>
+    </head>
+    
+    <body>
+        <canvas id="canvas" width="800" height="800"></canvas>
+        <button id="start-button">START</button>
+        <button id="target-decide-button">Decide Target Position</button>
+        <button id="start-decide-button">Decide Start Position</button>
+        <script src="view.js"></script>
+    </body>
+</html>
