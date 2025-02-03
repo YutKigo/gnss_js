@@ -7,7 +7,6 @@ wss.on('connection', (ws) => {
     console.log('WebSocket client connected');
 });
 
-/* シリアルポートを使用 */
 const port = new SerialPort({
     path: '/dev/tty.usbmodem101', 
     baudRate: 9600,  // Corrected to 'baudRate'
@@ -16,16 +15,16 @@ const port = new SerialPort({
     parity: 'none'
 });
 
-/* 緯度と経度を定義 */
+
 const latitude = 0;;
 const longitude = 0;
 
-/* シリアルを開く *//*
+
 port.on('open', () => {  // Corrected to 'open' event
     console.log('Serial port opened!');
-});*/
+});
 
-/* 取得したシリアルデータを受け取り続け、一定間隔で実行される関数 */
+
 let buffer = '';
 port.on('data', (data) => {
     buffer += data.toString('utf-8');
@@ -43,7 +42,7 @@ port.on('data', (data) => {
                 client.send(JSON.stringify({ latitude, longitude }));
             }
         });
-
+        
         // バッファをクリア
         buffer = '';
     }
@@ -53,12 +52,12 @@ wss.on('connection', (ws) => {
     console.log('WebSocket client connected');
 });
 
-/* NMEAデータを解析して、[緯度, 経度]配列を返す */
+
 const preData = [];
 function parseNmeaData(nmeaData) {
     const dataStrings = nmeaData.toString().split(",");
     //console.log(dataStrings);
-    console.log(`緯度: ${dataStrings[2]}, 経度: ${dataStrings[4]}`);
+    //console.log(`緯度: ${dataStrings[2]}, 経度: ${dataStrings[4]}`);
     if(dataStrings[2] === '' || dataStrings[4] === '') {
         dataStrings[2] = 0;
         dataStrings[4] = 0;
@@ -66,10 +65,12 @@ function parseNmeaData(nmeaData) {
     if(dataStrings[2] === undefined || dataStrings[4] === undefined) {
         return preData;
     }
-    preData[0] = parseFloat(dataStrings[2])/10
+    preData[0] = parseFloat(dataStrings[2])/100
     preData[1] = parseFloat(dataStrings[4])/100;
+    console.log(`緯度: ${parseFloat(dataStrings[2])/100}, 経度: ${parseFloat(dataStrings[4])/100}, 測位ステータス: ${dataStrings[6]}`);
     return [parseFloat(dataStrings[2])/100, parseFloat(dataStrings[4])/100];
 }
+
 
 
 
